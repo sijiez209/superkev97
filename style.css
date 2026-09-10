@@ -249,7 +249,58 @@ p{ margin:0; }
   position:relative;
 }
 .illustration-frame svg, .illustration-frame img{ display:block; width:100%; height:auto; }
-.illustration-frame img{ opacity:.88; }
+.illustration-frame img, .hero-illustration{ opacity:.88; }
+
+/* hero illustration idle animations */
+.hero-pop{
+  transform-box:fill-box; transform-origin:center;
+  animation:hero-pop-in 6s cubic-bezier(.34,1.2,.64,1) infinite;
+}
+@keyframes hero-pop-in{
+  0%{ opacity:0; transform:scale(.5); }
+  16%{ opacity:1; transform:scale(1.06); }
+  23%{ transform:scale(.98); }
+  30%, 100%{ opacity:1; transform:scale(1); }
+}
+.hero-pop-1{ animation-delay:0s; }
+.hero-pop-2{ animation-delay:1.5s; }
+.hero-pop-3{ animation-delay:3s; }
+.hero-hair{
+  animation:hero-hair-sway 4.5s ease-in-out infinite;
+  transform-box:fill-box; transform-origin:50% 88%;
+}
+@keyframes hero-hair-sway{
+  0%, 100%{ transform:rotate(0deg); }
+  50%{ transform:rotate(2deg); }
+}
+.hero-bulb{ animation:hero-bulb-flicker 3.6s ease-in-out infinite; transform-box:fill-box; transform-origin:center; }
+@keyframes hero-bulb-flicker{
+  0%, 100%{ opacity:1; }
+  45%{ opacity:1; }
+  50%{ opacity:.35; }
+  55%{ opacity:1; }
+  75%{ opacity:.6; }
+  80%{ opacity:1; }
+}
+.hero-sparkle{ animation:hero-sparkle-spin 14s linear infinite; transform-box:fill-box; transform-origin:center; }
+@keyframes hero-sparkle-spin{
+  0%{ transform:rotate(0deg) scale(1); }
+  50%{ transform:rotate(180deg) scale(1.12); }
+  100%{ transform:rotate(360deg) scale(1); }
+}
+.hero-dash{ animation:hero-dash-flow 2.4s ease-in-out infinite; transform-box:fill-box; transform-origin:center; }
+@keyframes hero-dash-flow{
+  0%, 100%{ opacity:.25; }
+  50%{ opacity:1; }
+}
+.hero-dash-1{ animation-delay:0s; }
+.hero-dash-2{ animation-delay:.15s; }
+.hero-dash-3{ animation-delay:.3s; }
+.hero-dash-4{ animation-delay:.45s; }
+.hero-dash-5{ animation-delay:.6s; }
+.hero-dash-6{ animation-delay:.75s; }
+.hero-card-dot{ transform-box:fill-box; transform-origin:center; }
+.hero-card-lines{ filter:blur(.5px); }
 .dim-line{ position:absolute; font-family:var(--font-mono); font-size:11px; color:var(--ink-45); display:flex; align-items:center; gap:6px; }
 .dim-line.top{ top:-30px; left:0; right:0; justify-content:center; }
 .dim-line .tick{ width:1px; height:8px; background:var(--ink-45); }
@@ -448,7 +499,8 @@ p{ margin:0; }
   .hero .wrap{ grid-template-columns:1fr; }
   .hero-figure{ order:-1; margin-bottom:12px; }
   .illustration-wrap{ max-width:260px; margin:0 auto; }
-  .hero-orbit{ width:100%; }
+  .hero-orbit{ width:135%; max-width:390px; aspect-ratio:.83; }
+  .orbit-ring path{ stroke:var(--ink-45); stroke-width:2; }
   .orbit-spin, .orbit-item{ animation-duration:26s; }
   .hero-actions .btn span.long{ display:none; }
 
