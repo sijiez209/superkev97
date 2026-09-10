@@ -78,7 +78,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
-    revealTargets.forEach(el => io.observe(el));
+    // Content already on screen at load (e.g. the portfolio grid, which
+    // sits right under the header) has no scroll distance to animate over —
+    // trying to fade it in races the browser's first paint and is
+    // inconsistent across reloads/scroll-restore. Show that instantly and
+    // only animate what actually scrolls into view.
+    const viewportH = window.innerHeight;
+    revealTargets.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const alreadyVisible = rect.top < viewportH * 0.92 && rect.bottom > 0;
+      if (alreadyVisible) {
+        el.classList.add('is-visible');
+      } else {
+        io.observe(el);
+      }
+    });
   } else {
     revealTargets.forEach(el => el.classList.add('is-visible'));
   }
@@ -97,5 +111,61 @@ document.addEventListener('DOMContentLoaded', () => {
       const note = contactForm.querySelector('.contact-form-note');
       if (note) note.hidden = false;
     });
+  }
+
+  // project galleries: click a cover/shot image to open a full-screen,
+  // paginated lightbox (cover image, then every shot, in page order)
+  const galleryImgs = [...document.querySelectorAll('.proj-cover img, .shot img')];
+  if (galleryImgs.length) {
+    const lightbox = document.createElement('div');
+    lightbox.className = 'lightbox';
+    lightbox.innerHTML = `
+      <button class="lightbox-close" aria-label="Close"><svg viewBox="0 0 20 20" fill="none"><path d="M5 5L15 15M15 5L5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+      <button class="lightbox-prev" aria-label="Previous"><svg viewBox="0 0 20 20" fill="none"><path d="M12 4L6 10L12 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <img class="lightbox-img" src="" alt="">
+      <button class="lightbox-next" aria-label="Next"><svg viewBox="0 0 20 20" fill="none"><path d="M8 4L14 10L8 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="lightbox-count"></div>
+    `;
+    document.body.appendChild(lightbox);
+
+    const imgEl = lightbox.querySelector('.lightbox-img');
+    const countEl = lightbox.querySelector('.lightbox-count');
+    let current = 0;
+
+    const show = (i) => {
+      current = (i + galleryImgs.length) % galleryImgs.length;
+      imgEl.src = galleryImgs[current].src;
+      imgEl.alt = galleryImgs[current].alt || '';
+      countEl.textContent = `${current + 1} / ${galleryImgs.length}`;
+    };
+    const open = (i) => {
+      show(i);
+      lightbox.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    };
+    const close = () => {
+      lightbox.classList.remove('is-open');
+      document.body.style.overflow = '';
+    };
+
+    galleryImgs.forEach((img, i) => img.addEventListener('click', () => open(i)));
+    lightbox.querySelector('.lightbox-close').addEventListener('click', close);
+    lightbox.querySelector('.lightbox-prev').addEventListener('click', () => show(current - 1));
+    lightbox.querySelector('.lightbox-next').addEventListener('click', () => show(current + 1));
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('is-open')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') show(current - 1);
+      if (e.key === 'ArrowRight') show(current + 1);
+    });
+
+    // swipe left/right to page through on touch devices
+    let touchStartX = 0;
+    lightbox.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    lightbox.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) show(current + (dx > 0 ? -1 : 1));
+    }, { passive: true });
   }
 });
