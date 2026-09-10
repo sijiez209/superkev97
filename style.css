@@ -54,10 +54,15 @@ p{ margin:0; }
 /* ---------- scroll reveal ---------- */
 .reveal{
   opacity:0; transform:translateY(28px);
-  transition:opacity 1.2s cubic-bezier(.16,.8,.24,1), transform 1.2s cubic-bezier(.16,.8,.24,1);
-  transition-delay:calc(var(--i, 0) * 220ms);
+  transition:opacity .8s cubic-bezier(.16,.8,.24,1), transform .8s cubic-bezier(.16,.8,.24,1);
+  transition-delay:calc(var(--i, 0) * 70ms);
 }
 .reveal.is-visible{ opacity:1; transform:translateY(0); }
+
+.skill-card.reveal{
+  transition-duration:1.2s;
+  transition-delay:calc(var(--i, 0) * 220ms);
+}
 
 .hero-copy > *{
   opacity:0; transform:translateY(20px);
