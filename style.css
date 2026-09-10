@@ -499,7 +499,7 @@ p{ margin:0; }
   .hero .wrap{ grid-template-columns:1fr; }
   .hero-figure{ order:-1; margin-bottom:12px; }
   .illustration-wrap{ max-width:260px; margin:0 auto; }
-  .hero-orbit{ width:135%; max-width:390px; aspect-ratio:.83; }
+  .hero-orbit{ width:148%; max-width:420px; aspect-ratio:.83; }
   .orbit-ring path{ stroke:var(--ink-45); stroke-width:2; }
   .orbit-spin, .orbit-item{ animation-duration:26s; }
   .hero-actions .btn span.long{ display:none; }
