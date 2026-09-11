@@ -468,7 +468,6 @@ p{ margin:0; }
 .shot-grid{ display:grid; grid-template-columns:1fr; gap:20px; margin-bottom:64px; }
 .shot{ margin:0; border:1px solid var(--line-strong); background:var(--white); overflow:hidden; }
 .shot img{ width:100%; display:block; }
-.shot figcaption{ font-family:var(--font-mono); font-size:11.5px; color:var(--ink-45); padding:10px 12px; border-top:1px solid var(--line); }
 
 .proj-nav{ display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line); margin-top:48px; }
 .proj-nav a{ padding:32px var(--gutter) 40px 0; }
