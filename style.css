@@ -463,6 +463,7 @@ p{ margin:0; }
 .proj-point p{ color:var(--ink-70); font-size:15px; }
 
 .proj-note{ max-width:720px; padding:16px 20px; border-left:3px solid var(--line-strong); background:var(--tint); color:var(--tint-ink); font-size:14.5px; margin:0 0 56px; }
+.proj-note a{ color:var(--ink); border-bottom:1px solid var(--ink); }
 
 .shot-grid{ display:grid; grid-template-columns:1fr; gap:20px; margin-bottom:64px; }
 .shot{ margin:0; border:1px solid var(--line-strong); background:var(--white); overflow:hidden; }
