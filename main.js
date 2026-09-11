@@ -113,6 +113,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // sticky "All work" bar: show its bottom border only once it's pinned under the header
+  const backBar = document.querySelector('.proj-back');
+  if (backBar && 'IntersectionObserver' in window) {
+    const backBarIo = new IntersectionObserver(
+      ([entry]) => backBar.classList.toggle('is-stuck', entry.intersectionRatio < 1),
+      { threshold: [1], rootMargin: '-77px 0px 0px 0px' }
+    );
+    backBarIo.observe(backBar);
+  }
+
   // project galleries: click a cover/shot image to open a full-screen,
   // paginated lightbox (cover image, then every shot, in page order)
   const galleryImgs = [...document.querySelectorAll('.proj-cover img, .shot img')];
